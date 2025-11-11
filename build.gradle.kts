@@ -2,30 +2,46 @@ val kotlin_version: String by project
 val logback_version: String by project
 
 plugins {
-    kotlin("jvm") version "2.2.20"
-    id("io.ktor.plugin") version "3.3.1"
-    id("org.jetbrains.kotlin.plugin.serialization") version "2.2.20"
+    kotlin("jvm") version "1.9.22"
+    kotlin("plugin.serialization") version "1.9.22"
+    application
 }
 
-kotlin {
-    jvmToolchain(21)
-}
+group = "com.studysage"
+version = "1.0.0"
 
-group = "com.group_7"
-version = "0.0.1"
-
-application {
-    mainClass = "io.ktor.server.netty.EngineMain"
+repositories {
+    mavenCentral()
 }
 
 dependencies {
-    implementation("io.ktor:ktor-server-core")
-    implementation("io.ktor:ktor-server-content-negotiation")
-    implementation("io.ktor:ktor-serialization-kotlinx-json")
-    implementation("io.ktor:ktor-server-auth")
-    implementation("io.ktor:ktor-server-netty")
-    implementation("ch.qos.logback:logback-classic:$logback_version")
-    implementation("io.ktor:ktor-server-config-yaml")
-    testImplementation("io.ktor:ktor-server-test-host")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
+    // Ktor Server
+    implementation("io.ktor:ktor-server-core:2.3.7")
+    implementation("io.ktor:ktor-server-netty:2.3.7")
+    implementation("io.ktor:ktor-server-content-negotiation:2.3.7")
+    implementation("io.ktor:ktor-server-cors:2.3.7")
+    implementation("io.ktor:ktor-server-websockets:2.3.7")
+
+    // Serialization
+    implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.7")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
+
+    // Logging
+    implementation("ch.qos.logback:logback-classic:1.4.14")
+
+    // Testing
+    testImplementation("io.ktor:ktor-server-test-host:2.3.7")
+    testImplementation("org.jetbrains.kotlin:kotlin-test:1.9.22")
+}
+
+application {
+    mainClass.set("com.studysage.ApplicationKt")
+}
+
+tasks.test {
+    useJUnitPlatform()
+}
+
+kotlin {
+    jvmToolchain(17)
 }
